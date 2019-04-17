@@ -1,0 +1,43 @@
+[Unit]
+Description=Puma HTTP Forking Server
+After=network.target
+
+[Service]
+# Background process configuration (use with --daemon in ExecStart)
+Type=forking
+
+# Preferably configure a non-privileged user
+User=alex
+Group=alex
+
+# The path to the puma application root
+# Also replace the "<WD>" place holders below with this path.
+WorkingDirectory=/home/alex/ws/rails523
+
+# Path to PID file so that systemd knows which is the master process
+PIDFile=/home/alex/ws/rails523/tmp/puma.pid
+
+# The command to start Puma
+# (replace "<WD>" below)
+ExecStart=/home/alex/.rvm/gems/ruby-2.6.2@rails523/wrappers/bundle exec puma -C /home/alex/ws/rails523/config/puma.rb --daemon
+
+# The command to stop Puma
+# (replace "<WD>" below)
+ExecStop=/home/alex/.rvm/gems/ruby-2.6.2@rails523/wrappers/bundle exec pumactl -S /home/alex/ws/rails523/tmp/puma.state stop
+
+# Should systemd restart puma?
+# Use "no" (the default) to ensure no interference when using
+# stop/start/restart via `pumactl`.  The "on-failure" setting might
+# work better for this purpose, but you must test it.
+# Use "always" if only `systemctl` is used for start/stop/restart, and
+# reconsider if you actually need the forking config.
+Restart=no
+
+# `puma_ctl restart` wouldn't work without this. It's because `pumactl`
+# changes PID on restart and systemd stops the service afterwards
+# because of the PID change. This option prevents stopping after PID 
+# change.  
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
