@@ -7,23 +7,27 @@ After=network.target
 Type=forking
 
 # Preferably configure a non-privileged user
-User=alex
-Group=alex
+User=sites
+Group=sites
 
 # The path to the puma application root
 # Also replace the "<WD>" place holders below with this path.
-WorkingDirectory=/home/alex/ws/rails523
+#WorkingDirectory=/home/alex/ws/rails523
+WorkingDirectory=/home/sites/rails523
 
 # Path to PID file so that systemd knows which is the master process
-PIDFile=/home/alex/ws/rails523/tmp/puma.pid
+#PIDFile=/home/alex/ws/rails523/tmp/puma.pid
+PIDFile=/home/sites/rails523/tmp/puma.pid
 
 # The command to start Puma
 # (replace "<WD>" below)
-ExecStart=/home/alex/.rvm/gems/ruby-2.6.2@rails523/wrappers/bundle exec puma -C /home/alex/ws/rails523/config/puma.rb --daemon
+#ExecStart=/home/alex/.rvm/gems/ruby-2.6.2@rails523/wrappers/bundle exec puma -C /home/alex/ws/rails523/config/puma.rb --daemon
+ExecStart=/home/alex/.rvm/gems/ruby-2.6.2@rails523/wrappers/bundle exec puma -C /home/sites/rails523/config/puma.rb --daemon
 
 # The command to stop Puma
 # (replace "<WD>" below)
-ExecStop=/home/alex/.rvm/gems/ruby-2.6.2@rails523/wrappers/bundle exec pumactl -S /home/alex/ws/rails523/tmp/puma.state stop
+#ExecStop=/home/alex/.rvm/gems/ruby-2.6.2@rails523/wrappers/bundle exec pumactl -S /home/alex/ws/rails523/tmp/puma.state stop
+ExecStop=/home/alex/.rvm/gems/ruby-2.6.2@rails523/wrappers/bundle exec pumactl -S /home/sites/rails523/tmp/puma.state stop
 
 # Should systemd restart puma?
 # Use "no" (the default) to ensure no interference when using
